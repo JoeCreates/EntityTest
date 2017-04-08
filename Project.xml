@@ -33,7 +33,6 @@
 	<!--------------------------------LIBRARIES------------------------------------->
 	
 	<haxelib name="flixel" />
-	<haxelib name="sure" />
 	<haxelib name="tink_core" />
 	<haxelib name="tink_macro" />
 	

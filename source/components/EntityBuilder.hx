@@ -403,22 +403,22 @@ class EntityBuilder {
 		return out;
 	}
 	
-    public static function interfaceHasField(i:ClassType, fieldName:String):Bool {
-        if (!i.isInterface) {
-            return false;
-        }
-        for (field in i.fields.get()) {
-            if (field.name == fieldName) {
-                return true;
-            }
-        }
-        for (i2 in i.interfaces) {
-            if (interfaceHasField(i2.t.get(), fieldName)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	public static function interfaceHasField(i:ClassType, fieldName:String):Bool {
+		if (!i.isInterface) {
+			return false;
+		}
+		for (field in i.fields.get()) {
+			if (field.name == fieldName) {
+				return true;
+			}
+		}
+		for (i2 in i.interfaces) {
+			if (interfaceHasField(i2.t.get(), fieldName)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public static function buildComponentInterface():Array<Field> {
 		var fields:Array<Field> = Context.getBuildFields();

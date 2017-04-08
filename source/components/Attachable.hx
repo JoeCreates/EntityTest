@@ -59,8 +59,6 @@ class AttachableComponent extends Component<Attachable> {
 	 * @param   y The y position of the attachment
 	 */
 	public function attach(child:Attachable, ?x:Float, ?y:Float, ?originX:Float, ?originY:Float, ?updateAndDraw:Bool):Void {
-		Sure.sure(child != null);
-		
 		// Detach child from current parent
 		if (child.attachable.parent != null) {
 			child.attachable.parent.attachable.remove(child);
