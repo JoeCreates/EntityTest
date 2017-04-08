@@ -1,4 +1,4 @@
-package lycan.components;
+package components;
 
 interface Attachable extends Entity {
 	public var attachable:AttachableComponent;
@@ -107,7 +107,7 @@ class AttachableComponent extends Component<Attachable> {
 	}
 	
 	@:access(AttachableComponent)
-	private function recursiveUpdate(dt:Float):Void {       
+	private function recursiveUpdate(dt:Float):Void {
 		if (children == null) return;
 		// Recursively update children
 		for (child in children) {

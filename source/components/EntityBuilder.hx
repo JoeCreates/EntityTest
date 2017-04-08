@@ -1,4 +1,4 @@
-package lycan.components;
+package components;
 
 import haxe.macro.Context;
 import haxe.macro.Expr;
@@ -8,11 +8,11 @@ import tink.macro.ClassBuilder;
 import tink.macro.Exprs;
 import tink.macro.Types;
 
-import lycan.components.Component;
+import components.Component;
 
 class EntityBuilder {
 	
-	public static var packagePath:Array<String> = ["lycan", "components"];
+	public static var packagePath:Array<String> = ["components"];
 	public static var entityPath:TypePath = {pack: packagePath, name: "Entity"};
 	public static var componentPath:TypePath = {pack: packagePath, name: "Component"};
 	
@@ -44,7 +44,7 @@ class EntityBuilder {
 			trace("A1.5" + classType.name);
 			var c = macro class {
 				// TODO make it possible to customise this name
-				public var components:Array<lycan.components.Component<Dynamic>> = [];
+				public var components:Array<components.Component<Dynamic>> = [];
 			}
 			trace("A1.75");
 			fields.push(c.fields[0]);
@@ -120,7 +120,7 @@ class EntityBuilder {
 					}),
 					pos: Context.currentPos()
 				});
-			}           
+			}
 		}
 		
 		trace("A3");
