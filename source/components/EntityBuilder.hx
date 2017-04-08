@@ -316,23 +316,60 @@ class EntityBuilder {
 		return null;
 	}
 	
-	// TODO possibly don;t need this anymore (could use TypeTools.findField()?)
-	public static function interfaceHasField(i:ClassType, fieldName:String):Bool {
-		if (!i.isInterface) {
-			return false;
-		}
-		for (field in i.fields.get()) {
-			if (field.name == fieldName) {
-				return true;
-			}
-		}
-		for (i2 in i.interfaces) {
-			if (TypeTools.findField(i2.t.get(), fieldName) != null) {
-				return true;
-			}
-		}
-		return false;
-	}
+	//!!!!!!!!! Copied from old stuff
+	/** Recursively check if build field or inherited field */
+	//public static function hasFieldIncludingBuildFields(fieldName:String):Bool {
+		//var classType:ClassType;
+		//switch (Context.getLocalType()) {
+			//case TInst(r, _):
+				//classType = r.get();
+			//case _:
+		//}
+		//for (field in Context.getBuildFields()) {
+			//// Check if this Field is the required field
+			//if (field.name == fieldName) {
+				//return true;
+			//}
+		//}
+		//// If not, check the super class if there is one
+		//if (classType.superClass != null) {
+			//return hasField(classType.superClass.t.get(), fieldName);
+		//}
+		//return false;
+	//}
+	//
+	///** Recursively check if given ClassType has a field */
+	//public static function hasField(type:ClassType, fieldName:String):Bool {
+		//for (field in type.fields.get()) {
+			//// Check if this Field is the required field
+			//if (field.name == fieldName) {
+				//return true;
+			//}
+		//}
+		//// If not, check the super class if there is one
+		//if (type.superClass != null) {
+			//return hasField(type.superClass.t.get(), fieldName);
+		//}
+		//return false;
+	//}
+	//
+	//// TODO possibly don;t need this anymore (could use TypeTools.findField()?)
+	//public static function interfaceHasField(i:ClassType, fieldName:String):Bool {
+		//if (!i.isInterface) {
+			//return false;
+		//}
+		//for (field in i.fields.get()) {
+			//if (field.name == fieldName) {
+				//return true;
+			//}
+		//}
+		//for (i2 in i.interfaces) {
+			//if (TypeTools.findField(i2.t.get(), fieldName) != null) {
+				//return true;
+			//}
+		//}
+		//return false;
+	//}
 	
 	/** Recursively check if given ClassType implements interface of given name */
 	public static function hasInterface(type:ClassType, interfaceName:String):Bool {
