@@ -43,7 +43,7 @@ class AttachableComponent extends Component<Attachable> {
 		flipY = false;
 	}
 	
-	override public function lateUpdate(dt:Float):Void {
+	public function lateUpdate(dt:Float):Void {
 		// The root is responsible for recursively updating its children
 		// However, children must also update if their attached position or origin
 		// have changed, which is indicated by the dirty flag
