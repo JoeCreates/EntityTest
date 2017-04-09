@@ -10,6 +10,18 @@ import tink.macro.Types;
 
 import components.Component;
 
+/**
+ * TODO
+ * - Remove need to override new (will need to add a new field to classes that miss one)
+ * - Add append and prepend metadatas to inject method calls into entity methods
+ * - Identify component field with metadata? Not sure about this one.
+ * - Allow dummy fields to be named in metadata
+ * 
+ * Documentation
+ * Using append to destroy components in entity's detroy method
+ * Using append to add component to signals
+ */
+
 class EntityBuilder {
 	
 	public static var packagePath:Array<String> = ["components"];
@@ -64,6 +76,8 @@ class EntityBuilder {
 	
 	/** Function to build a class which extends Entity */
 	public static function buildComponentClass(classType:ClassType, fields:Array<Field>):Array<Field> {
+		
+		//TODO remove requirement for constructor to build
 		
 		// Get list of interfaces on this class which extend Entity
 		var componentInterfaces:Array<ClassType> = getComponentInterfaces();
