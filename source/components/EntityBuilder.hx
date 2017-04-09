@@ -77,10 +77,13 @@ class EntityBuilder {
 	/** Function to build a class which extends Entity */
 	public static function buildComponentClass(classType:ClassType, fields:Array<Field>):Array<Field> {
 		
-		//TODO remove requirement for constructor to build
-		
 		// Get list of interfaces on this class which extend Entity
 		var componentInterfaces:Array<ClassType> = getComponentInterfaces();
+		
+		// Throw an error if the class is missing a constructor (seems we cannot create one by copying from the superclass due to build order issues)
+		if (fields.filter(function(f:Field):Bool { return f.name == "new"; }).length == 0) {
+			throw "Class " + classType.name + " does not have a constructor. Implement one.";
+		}
 		
 		// Add components field
 		if (!hasField(classType, "components")) {
