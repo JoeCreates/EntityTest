@@ -2,6 +2,7 @@ package components;
 
 import haxe.macro.Context;
 import haxe.macro.Expr;
+import haxe.macro.ExprTools;
 import haxe.macro.Type;
 import haxe.macro.TypeTools;
 import tink.macro.ClassBuilder;
@@ -210,10 +211,64 @@ class EntityBuilder {
 			var componentClass:ClassType = TypeTools.getClass(componentField.field.type);
 			// For each field in the component, look for the metadata
 			for (field in componentClass.fields.get()) {
+				var meta:MetadataEntry;
 				if (field.meta.has(":prepend")) {
-					//TODO apparently
+					meta = field.meta.extract(":prepend")[0];
 				} else if (field.meta.has(":append")) {
-					//TODO
+					meta = field.meta.extract(":append")[0];
+				} else {
+					continue;
+				}
+				
+				var componentFuncArgs:Array<{t:Type, opt:Bool, name:String}>;
+				switch (Types.reduce(field.type)) {
+					case TFun(args, _):
+						componentFuncArgs = args;
+					case _:
+						throw("Prepend/append metadata may only be used on a function");
+				}
+				
+				if (meta.params.length != 1) {
+					throw("Prepend/append metadata must have exactly one parameter");
+				}
+				var targetMethodName:String = ExprTools.getValue(meta.params[0]);
+				var targetFunc:Function = null;
+					
+				// Find the entity field that requires code injection
+				for (field in fields) {
+					switch (field.kind) {
+						case FFun(func) if (field.name == targetMethodName):
+							targetFunc = func;
+						case _:
+					}
+				}
+				
+				// Error if there is no such field
+				if (targetFunc == null) {
+					throw(classType.name + " has no function " + targetMethodName + ", required by " + componentClass.name);
+				}
+				
+				// Create the method call expressions
+				var params:Array<Expr> = [];
+				for (p in targetFunc.args) {
+					params.push(macro $i{p.name});
+				}
+				
+				var componentFuncName:String = field.name;
+				var expr = {pos: Context.currentPos(), expr: ECall(macro $i{componentField.field.name}.$componentFuncName, params)};
+				
+				trace("append or prepend?" + meta.name);
+				targetFunc.expr = switch(meta.name) {
+					case ":prepend":
+						macro {
+							${expr};
+							${targetFunc.expr};
+						}
+					case _:
+						macro {
+							${targetFunc.expr};
+							${expr};
+						}
 				}
 			}
 		}
